@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<!--
+This is a starter template page. Use this page to start your new project from
+scratch. This page gets rid of all links and provides the needed markup only.
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+  <title>Dashboard</title>
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="../static/all.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="../static/adminlte.min.css">
+  
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-analytics.js"></script>
+
+<script>
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  var firebaseConfig = {
+    apiKey: "AIzaSyB5BnV3CG9bCb9Qpso__5jPR0h4Yzp8cas",
+    authDomain: "wheeldrive-7c382.firebaseapp.com",
+    databaseURL: "https://wheeldrive-7c382.firebaseio.com",
+    projectId: "wheeldrive-7c382",
+    storageBucket: "wheeldrive-7c382.appspot.com",
+    messagingSenderId: "340505358572",
+    appId: "1:340505358572:web:2667184a111350298a35c9",
+    measurementId: "G-MN011YDPLR"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+</script>
+
+<!-- <script type="text/javascript">
+    setInterval("my_function();",30000); 
+    function my_function(){
+      $('#tableDiv').load(location.href + ' #tableDiv');
+    }
+</script> -->
+
+  <style>
+    .custom {
+      width: 100px !important;
+    }
+    .center{
+      margin: auto;
+      writing-mode: vertical-lr; 
+      text-orientation: mixed;
+      transform: rotate(-180deg);
+      line-height: 50%;
+    }
+    .textBox_custom_styling{
+      height: 25px;
+    }
+	.centered{
+		display: block;
+		margin: 0;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		-ms-transform: translate(-50%, -50%);
+		transform: translate(-50%, -50%);
+		/* width: 100%; */
+	}
+	.map-div{
+		height: 375px;
+		width: 525px;
+	}
+	#ShortestRoute{
+		height: 130px;
+	}
+	.reloaded-route-divs{
+		height: 30px;
+		/* padding-top: 10px; */
+	}
+	/* #video-feed{
+		height:10%;
+	} */
+  </style>
+
+</head>
+<body class="hold-transition sidebar-mini" onload="startTimer()">
+<div class="wrapper">
+
+  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
+      </li>
+    </ul>
+  </nav>
+  <!-- /.navbar -->
+	<aside class="main-sidebar sidebar-dark-primary elevation-4">
+		<!-- Brand Logo -->
+		<a href="#" class="brand-link">
+		  <span class="brand-text font-weight-light">Coverage</span>
+		</a>
+
+		<!-- Sidebar -->
+		<div class="sidebar">
+		  <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+			<div class="info">
+			  <a href="#" class="d-block">DOP User</a>
+			</div>
+		  </div>
+
+		  <nav class="mt-2">
+			<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+			  <li class="nav-item">
+				<a href="coverage" class = "nav-link active">
+				  <i class="nav-icon fas fa-th"></i>
+				  <p>Coverage</p>
+				</a>
+			  </li>
+			</ul>
+		  </nav>
+		</div>
+	</aside>
+	
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-12">
+            <div class="d-flex text-center">
+				<div class="mx-auto">
+					<h4>2WD Robot</h4>
+				</div>
+			</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- Main content -->
+    <div class="content">
+      <div class="container-fluid">
+        <!--<div class="row" >
+          <div class="col-md-12">
+            <div class="float-right">
+              <div class="row mb-1">
+                <div class="col-md-4">
+                  <label>Template</label>
+                </div>
+                <div class="col-md-8">
+
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>-->
+
+        <div id="view" style="width: 100%; ">
+			<div class="row">
+				<div class="col-lg-4">
+				  <div class="row">
+				    <div class="col-md-12">
+					<div class="card">
+						<div class="card-header">
+							<h3 class="card-title">Robot Controls</h3>
+							
+							<div class="card-tools">
+							  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+								<i class="fas fa-minus"></i>
+							  </button>
+							  <button type="button" class="btn btn-tool" data-card-widget="remove">
+								<i class="fas fa-times"></i>
+							  </button>
+							</div>
+						</div>
+						
+						<div class="card-body p-0">
+							<div class="d-flex">
+								<div class="row my-3" style="width: 100%">
+									<div class="col-lg-12">
+										<div class="row mb-2">
+											<div class="col-md-4"></div>
+											<div class="col-md-4 text-center">
+												<button id="up" class="btn btn-outline-secondary btn-lg" onclick="navigationOnClick(this.id)">
+													<i class="fas fa-angle-up"></i>
+												</button>
+											</div>
+											<div class="col-md-4"></div>
+										</div>
+										<div class="row">
+											<div class="col-md-5 text-right">
+												<button id="left" class="btn btn-outline-secondary btn-lg" onclick="navigationOnClick(this.id)">
+													<i class="fas fa-angle-left"></i>
+												</button>
+											</div>
+											<div class="col-md-2 text-center">
+												<button id="stop" class="btn btn-outline-secondary btn-lg" onclick="navigationOnClick(this.id)">
+													<i class="fas fa-stop-circle"></i>
+												</button>
+											</div>
+											<div class="col-md-5 text-left">
+												<button id="right" class="btn btn-outline-secondary btn-lg" onclick="navigationOnClick(this.id)">
+													<i class="fas fa-angle-right"></i>
+												</button>
+											</div>
+										</div>
+										<div class="row mt-2">
+											<div class="col-md-4"></div>
+											<div class="col-md-4 text-center">
+												<button id="down" class="btn btn-outline-secondary btn-lg" onclick="navigationOnClick(this.id)">
+													<i class="fas fa-angle-down"></i>
+												</button>
+											</div>
+											<div class="col-md-4"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						  </div>
+					</div>
+				    </div>
+				  </div>
+				  <div class="row">
+				    <div class="col-md-12">
+					<div class="card">
+						<div class="card-header">
+							<h3 class="card-title"></h3>
+							
+							<div class="card-tools">
+							  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+								<i class="fas fa-minus"></i>
+							  </button>
+							  <button type="button" class="btn btn-tool" data-card-widget="remove">
+								<i class="fas fa-times"></i>
+							  </button>
+							</div>
+						</div>
+						
+						<div class="card-body p-0">
+							<div class="d-flex">
+								<div class="mx-auto">
+									<div class="row mt-5 mb-5">
+										<button class="btn btn-md btn-primary" style="width: 150px;"><a href="/snapshot" style="color:black;">Take Picture</a></button>
+									</div>
+									<div class="row mb-5 mt-5">
+										<button id="scan_rfid_button" class="btn btn-md btn-warning" style="width: 150px;" onclick="scanRFID()">Scan RFID</button>
+									</div>
+								</div>
+							</div>
+						  </div>
+					</div>
+				    </div>
+				  </div>
+				</div>
+				<div class="col-lg-8">
+					<div class="card">
+						<div class="card-header">
+							<h3 class="card-title">Live Camera Display</h3>
+							
+							<div class="card-tools">
+							  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+								<i class="fas fa-minus"></i>
+							  </button>
+							  <button type="button" class="btn btn-tool" data-card-widget="remove">
+								<i class="fas fa-times"></i>
+							  </button>
+							</div>
+						</div>
+						
+						<div class="card-body p-0" id="video-feedd">
+							<div class="container text-center" id="video-feed">
+							    <img class="mx-auto my-auto" src="{{ url_for('video_feed') }}">
+							</div>
+						  </div>
+					</div>
+				</div>
+			</div>
+        </div>
+		
+		<div class="row">
+				<div class="col-lg-6">
+					<div class="card border-transparent">
+						<div class="card-header">
+							<h3 class="card-title">Task Assigned</h3>
+							<div class="card-tools">
+								<button type="button" class="btn btn-tool" onclick="refreshTaskTable()">
+									<i class="fas fa-redo"></i>
+								</button>
+								<button type="button" class="btn btn-tool" data-card-widget="collapse">
+									<i class="fas fa-minus"></i>
+								</button>
+								<button type="button" class="btn btn-tool" data-card-widget="remove">
+									<i class="fas fa-times"></i>
+								</button>
+							</div>
+						</div>
+						
+						<div class="card-body p-0">
+							<div class="direct-chat-messages">
+								<div id="tableGIF" style="display: block;">
+									<div class="row mt-5">
+										<div class="col-sm-5"></div>
+										<div class="col-sm-2">
+											<div style="text-align: center;">
+												<input type="image" src="../static/loading2.gif" style="width: 50px; height: 50px;">
+											</div>
+										</div>
+										<div class="col-sm-5"></div>
+									</div>
+								</div>
+								<div id="tableDiv" class="table-responsive" style="display: none;">
+									<table class="table m-0" id="taskTable">
+									  <thead>
+										  <tr>
+											<th>ID</th>
+											<th>Name</th>
+											<th>Location</th>
+											<th>Status</th>
+										  </tr>
+									  </thead>
+									  <tbody>
+									  </tbody>
+									</table>
+								  </div>
+								  <div id="alertDiv" class="alert alert-danger mt-2" style="display: none">
+								    <strong>No Data!</strong> No data available for today. Add new data.
+								    <button class="btn btn-sm btn-success float-right" onclick="addNewTask()">Add New</button>
+								  </div>
+							</div>
+						</div>
+						
+						<div class="card-footer clearfix">
+							<a href="javascript:void(0)" class="btn btn-sm btn-info float-left" onclick="addNewTask()">Add New Task</a>
+							<!--<a href="javascript:void(0)" class="btn btn-sm btn-secondary float-right">View All Orders</a>-->
+						</div>
+					</div>
+				</div>
+
+				
+				<div class="col-lg-6">
+					<div class="card">
+						<div class="card-header">
+							<h3 class="card-title">Warehouse Layout</h3>
+							
+							<div class="card-tools">
+								<button type="button" id="refreshMapLayout" class="btn btn-tool">
+									<i class="fas fa-redo"></i>
+								</button>
+								<button type="button" class="btn btn-tool" data-card-widget="collapse">
+									<i class="fas fa-minus"></i>
+							  	</button>
+							  	<button type="button" class="btn btn-tool" data-card-widget="remove">
+									<i class="fas fa-times"></i>
+							  	</button>
+							</div>
+						</div>
+						
+						<div class="card-body p-0">
+							<div class="direct-chat-messages" id="MapLayout">
+								<div class="reloaded-divs">
+									<div class="map-div">
+										{% block map %}
+										{% endblock %}
+									</div>
+								</div>
+								<!-- <div class="reloaded-route-divs">
+									<div class="route-div">
+										{# {% block route %} #}
+										{# {% endblock %} #}
+									</div>
+								</div> -->
+							</div>
+						</div>
+						<div class="card-footer clearfix" id="ShortestRoute">
+							<div class="reloaded-route-divs">
+								{% block route %}
+								{% endblock %}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+        </div>
+
+        
+      </div>
+    </div>
+  </div>
+
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+    <div class="p-3">
+      <h5>Title</h5>
+      <p>Sidebar content</p>
+    </div>
+  </aside>
+  <footer class="main-footer">
+    <div class="float-right d-none d-sm-inline">
+    </div>
+  </footer>
+</div>
+
+<!-- ./wrapper -->
+
+<!-- REQUIRED SCRIPTS -->
+
+<!-- jQuery -->
+<script src="../static/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="../static/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE App -->
+<script src="../static/adminlte.min.js"></script>
+
+<script src="../static/notify.js"></script>
+
+<script src="../static/notify.min.js"></script>
+
+<script src="../static/sweetalert2.all.min.js"></script>
+
+<script src="../static/sweetalert2.min.js"></script>
+
+</body>
+
+<script>
+	$("#refreshMapLayout").click(function() {
+		// alert('Confirm to refresh alert messages.');
+    
+	// $("#MapLayout").load("#MapLayout .reloaded-divs > *");
+	$("#ShortestRoute").load("#ShortestRoute .reloaded-route-divs > *");
+}); 
+
+	$(document).ready(function() {
+	$(".nav-link").click();
+	refreshTaskTable();
+});
+
+function addNewTask(){
+	Swal.mixin({
+		input: 'text',
+		confirmButtonText: 'Next &rarr;',
+		showCancelButton: true,
+		progressSteps: ['1', '2']
+		}).queue([
+	{
+		title: 'New Task',
+		text: 'Enter Item Name'
+	},
+	{
+		title: 'New Task',
+		text: 'Enter Item Location'
+	},
+	]).then((result) => {
+	if (result.value) {
+		const answers = JSON.stringify(result.value)
+		if (result.value[0] != "" && result.value[1] != ""){
+		  if (isItemNameValid(result.value[0])){
+		    uploadTodaysTask(getTodayDate(), result.value[0], result.value[1], 'Pending');
+		  } else {
+		    Swal.fire({
+  				icon: 'error',
+  				title: 'Oops...',
+  				text: 'Item already exists!'
+			})
+		    }
+			
+		} else {
+			Swal.fire({
+  				icon: 'error',
+  				title: 'Oops...',
+  				text: 'Incomplete inputs!'
+			})
+		}
+  	}
+	})
+}
+
+function getTodayDate(){
+	var date = new Date();
+	return date.getDate() + "-"+ (date.getMonth() + 1) +"-"+ date.getFullYear();
+}
+
+function uploadTodaysTask(date, item, itemDes, itemStatus){
+	var itemID = document.getElementById("taskTable").rows.length + 1;
+	data = {"date": date, "itemID": itemID, "item": item, "itemDescription": itemDes, "itemStatus": itemStatus}
+	console.log(data);
+	$.ajax({
+    	url: '/home/addTodaysTask',
+		type: 'POST',
+		contentType: "application/json; charset=utf-8",
+		data: JSON.stringify(data),
+        success: function(response, status) {
+            if (response.status == 200){
+				showSuccessMessage(response.msg);
+				  refreshTaskTable();
+				  $("#MapLayout").load("#MapLayout .reloaded-divs > *");
+				//   HERE!
+            } else {
+              showErrorMessage(response.msg);
+			}
+        },
+        error: function(xhr, status, statusText){
+            showErrorMessage("Failed to get response. Status : "+status);
+        }
+	});
+}
+
+
+function getTodaysTask(date){
+	data = {"date": date}
+	$.ajax({
+    url: '/home/getTodaysTask',
+	type: 'POST',
+	contentType: "application/json; charset=utf-8",
+	data: JSON.stringify(data),
+        success: function(response) {
+            if (response.status == 200){
+				if (response.data.length != 0){
+					//console.log(Object.values(response.data));
+                    addTaskToTable(Object.values(response.data), sortData(Object.values(response.data)));
+                } else {
+                    //showErrorMessage(response.msg);
+		    setTableGIFDisplayNone();
+		    setTableDivDisplayBlock();
+		    setTableAlertDivBlock();
+                }
+            } else {
+              showErrorMessage(response.msg);
+	      setTableGIFDisplayNone();
+	      setTableDivDisplayBlock();
+			}
+        },
+        error: function(xhr, status, statusText){
+            showErrorMessage("Failed to get response. Status : "+status);
+        }
+	});
+}
+// append values to the table
+function addTaskToTable(data, sortedData){
+	for (var j=0; j<sortedData.length; j++){
+		for (var i=0; i<data.length; i++){
+			if (data[i] != null && data[i].itemID == sortedData[j]){
+				var row = $('<tr>'+
+							'<td>'+(j + 1)+'</td>'+
+							'<td>'+data[i].item+'</td>'+
+							'<td>'+data[i].itemDescription+'</td>'+
+							'<td><span class="badge '+isItemChecked(data[i].status)+'">'+data[i].status+'</span></td>'+
+						'</tr>');
+
+				$("#taskTable > tbody:last-child").append(row)
+			}
+		}
+	}
+	setTableGIFDisplayNone();
+	setTableDivDisplayBlock();
+	setTableAlertDivNone();
+}
+function setTableEmpty(){
+	$("#taskTable > tbody").empty()
+}
+function isTableEmpty(){
+	var table = document.getElementById("taskTable");
+	var rows = table.rows.length;
+	if (length == 0){
+		return true;
+	}
+	return false;
+}
+function setTableDivDisplayNone(){
+	document.getElementById("tableDiv").style.display = "none"
+}
+function setTableDivDisplayBlock(){
+	document.getElementById("tableDiv").style.display = "block"
+}
+function setTableGIFDisplayNone(){
+	document.getElementById("tableGIF").style.display = "none"
+}
+function setTableGIFDisplayBlock(){
+	document.getElementById("tableGIF").style.display = "block";
+}
+function setTableAlertDivNone(){
+  document.getElementById("alertDiv").style.display = "none"
+}
+function setTableAlertDivBlock(){
+  document.getElementById("alertDiv").style.display = "block";
+}
+
+function isItemChecked(status){
+	if (status == "Pending" || status == "pending"){
+		return "badge-warning";
+	} else {
+		return "badge-success";
+	}
+}
+function sortData(data){
+	var sortedArray = []
+	var counter = 0;
+	for (var i=0; i<data.length; i++){
+		if (data[i] != null){
+			sortedArray[counter] = data[i].itemID;
+			counter += 1;
+		}
+	}
+	sortedArray.sort(function(a, b){return a-b});
+	return sortedArray;
+}
+function showSuccessMessage(message){
+	Swal.fire({
+		position: 'top-end',
+		icon: 'success',
+		title: message,
+		showConfirmButton: false,
+		timer: 1500
+	});
+	$("#MapLayout").load("#MapLayout .reloaded-divs > *");
+}
+
+function showErrorMessage(message){
+	$.notify(message, "error");
+}
+
+
+function scanRFID(){
+	document.getElementById("scan_rfid_button").disabled = true;
+	var data = {};
+	
+	$.ajax({
+        url: '/home/scan_rfid',
+        type: 'POST',
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify(data),
+            success: function(response) {
+				if (response.status == 200){
+					if (response.data.length > 0){
+						refreshTaskTable();
+						showSuccessMessage(response.msg);
+					} else {
+						showErrorMessage(response.msg);
+					}
+				} else {
+					showErrorMessage(response.msg)
+				}
+				document.getElementById("scan_rfid_button").disabled = false;
+            },
+            error: function(xhr, status, statusText){
+                showErrorMessage("Failed to get response. Status : "+status);
+            }
+        });
+
+}
+
+function navigationOnClick(id){
+  document.getElementById(''+id).disabled = true;
+	data = {"task": id}
+	$.ajax({
+    url: '/home/robot_control',
+	type: 'POST',
+	contentType: "application/json; charset=utf-8",
+	data: JSON.stringify(data),
+        success: function(response) {
+            if (response.status == 200){
+	      if (response.msg != 'done'){
+		showErrorMessage(response.msg);
+	      }
+            } else {
+	      showErrorMessage(response.msg);
+	    }
+	    document.getElementById(''+id).disabled = false;
+        },
+        error: function(xhr, status, statusText){
+            showErrorMessage("Failed to get response. Status : "+status);
+        }
+	});
+}
+
+var timer;
+function startTimer() {
+	timer = setInterval(function() {
+		refreshTaskTable();
+	}, 30000);
+}
+
+
+function refreshTaskTable(){
+	if (isTableEmpty()){
+		setTableEmpty();
+	}
+	setTableDivDisplayNone();
+	setTableGIFDisplayBlock();
+	setTableAlertDivNone();
+	getTodaysTask(getTodayDate());
+	// $("#MapLayout").load("#MapLayout .reloaded-divs > *");
+}
+
+function isItemNameValid(item){
+  var rows = document.getElementById("taskTable").rows.length;
+  for (var i=1; i<rows; i++){
+    var itemAlready = document.getElementById("taskTable").rows[i].cells[1].innerHTML;
+    if (item == itemAlready){
+      return false;
+    }
+  }
+  return true;
+}
+</script>
+</html>
